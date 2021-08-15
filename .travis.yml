@@ -1,0 +1,10 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t dima_lvov/docker-react -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true dima_lvov/docker-react npm run test
+
