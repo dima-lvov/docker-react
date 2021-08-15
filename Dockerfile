@@ -13,4 +13,6 @@ RUN npm run build
 
 FROM nginx
 
-COPY --from=builder /app/build /usr/share/nginx/html
+RUN addgroup my_group && adduser dimon
+
+COPY --chown=my_group:dimon --from=builder /app/build /usr/share/nginx/html
