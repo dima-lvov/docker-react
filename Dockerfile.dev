@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:alpine as builder
 
 WORKDIR '/app'
 
@@ -8,4 +8,11 @@ RUN npm install
 
 COPY . .
 
-CMD ["npm", "run", "start"]
+RUN npm run build
+
+
+FROM nginx
+
+RUN addgroup my_group && adduser dimon
+
+COPY --chown=my_group:dimon --from=builder /app/build /usr/share/nginx/html
